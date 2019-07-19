@@ -1,7 +1,7 @@
-const db = require('../adapter')
+const db = require('../adapter');
 
-function list () {
-  return db.get('categories').value()
+function list() {
+  return db.get('categories').value();
 }
 
-module.exports = { list }
+module.exports = { list };

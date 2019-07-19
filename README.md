@@ -1,3 +1,3 @@
-# curso-platzi-react-avanzado ⚛️
+# Advanced React Course
 
-Repositorio con el código del [Curso Avanzado de React de Platzi](https://platzi.com/cursos/react-avanzado/)
+When I finish this course I will add a description 😇
