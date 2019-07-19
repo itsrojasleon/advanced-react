@@ -1,14 +1,17 @@
 {
   "version": 2,
-  "name": "petgram-server",
-  "alias": ["petgram-api"],
+  "name": "petgram-app-server",
+  "alias": ["petgram-app-api"],
   "builds": [{ "src": "index.js", "use": "@now/node" }],
-  "routes": [{
-    "headers": {
+  "routes": [
+    {
+      "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
-    },
-    "src": "/.*", "dest": "index.js" }
+      },
+      "src": "/.*",
+      "dest": "index.js"
+    }
   ]
 }

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "now-build": "npm run build"
   },
   "repository": "git@github.com:rojasleon/advanced-react.git",
   "author": "Juan Luis Rojas León <rojasleon.dev@gmail.com>",
