@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor, Image } from '../styles/category';
+import { Anchor, Image } from '../../styles/category/category';
 
 const DEFAULT_IMAGE = 'https://i.imgur.com/dJa0Hpl.jpg';
 
