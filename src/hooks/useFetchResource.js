@@ -19,7 +19,7 @@ export default function useFetchResource(resource) {
         const response = await request.json();
         if (!ignore) {
           setResources(response);
-          setLoading(true);
+          setLoading(false);
         }
       } catch (e) {
         setLoading(false);
