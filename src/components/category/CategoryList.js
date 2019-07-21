@@ -1,27 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Category from './Category';
+import Spinner from '../Spinner';
 import { List, Item } from '../../styles/category/category-list';
+import useFetchResource from '../../hooks/useFetchResource';
 
 export default function CategoryList() {
-  const [categories, setCategories] = useState([]);
   const [showFixed, setShowFixed] = useState(false);
-
-  useEffect(() => {
-    let ignore = false;
-
-    async function fetchData() {
-      const req = await fetch(
-        `https://petgram-app-server-ln46kf2xq.now.sh/categories`,
-      );
-      const res = await req.json();
-      if (!ignore) setCategories(res);
-    }
-
-    fetchData();
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const [categories, loading, error] = useFetchResource('categories');
 
   useEffect(() => {
     function onScroll() {
@@ -37,7 +22,7 @@ export default function CategoryList() {
   }, [showFixed]);
 
   const renderList = fixed => (
-    <List className={fixed && 'fixed'}>
+    <List fixed={fixed}>
       {categories.map(category => (
         <Item key={category.id}>
           <Category {...category} />
@@ -47,7 +32,11 @@ export default function CategoryList() {
   );
   return (
     <Fragment>
-      {renderList()}
+      {loading && (
+        <div style={{ margin: 'auto', textAlign: 'center' }}>
+          <Spinner />
+        </div>
+      )}
       {showFixed && renderList(true)}
     </Fragment>
   );
