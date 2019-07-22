@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 import { Article, ImgWrapper, Img, Button } from '../../styles/photo-card';
 
 const DEFAULT_IMAGE =
@@ -7,11 +7,20 @@ const DEFAULT_IMAGE =
 
 export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
   const [show, setShow] = useState(false);
+  const key = `like-${id}`;
+  const [liked, setLiked] = useState(() => {
+    try {
+      const like = window.localStorage.getItem(key);
+      return like;
+    } catch (e) {
+      console.log('Error:', e);
+    }
+  });
   const el = useRef();
 
   useEffect(() => {
     import('intersection-observer');
-    const observer = new window.IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(entries => {
       const { isIntersecting } = entries[0];
       if (isIntersecting) {
         setShow(true);
@@ -23,6 +32,17 @@ export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
       observer.unobserve(el.current);
     };
   }, [el]);
+
+  const Icon = liked ? MdFavorite : MdFavoriteBorder;
+
+  const setLocalStorage = value => {
+    try {
+      window.localStorage.setItem(key, value);
+      setLiked(value);
+    } catch (e) {
+      console.log(error);
+    }
+  };
   return (
     <Article ref={el}>
       {show && (
@@ -33,8 +53,8 @@ export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
             </ImgWrapper>
           </a>
 
-          <Button>
-            <MdFavoriteBorder size='32px' /> {likes} likes!
+          <Button onClick={() => setLocalStorage(!liked)}>
+            <Icon size='32px' /> {likes} likes!
           </Button>
         </Fragment>
       )}
