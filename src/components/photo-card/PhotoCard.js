@@ -1,27 +1,22 @@
-import React, { Fragment, useRef, useEffect, useState } from 'react';
-import { MdFavoriteBorder } from 'react-icons/md';
-import { Article, ImgWrapper, Img, Button } from '../../styles/photo-card';
+import React, { Fragment, useRef } from 'react';
+import FavButton from '../FavButton';
+import { Article, ImgWrapper, Img } from '../../styles/photo-card';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import useNearScreen from '../../hooks/useNearScreen';
+import { ToggleLikeMutation } from '../../containers/ToggleLikeMutation';
 
 const DEFAULT_IMAGE =
   'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60';
 
 export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
-  const [show, setShow] = useState();
-  const el = useRef();
+  const key = `like-${id}`;
+  const [liked, setLiked] = useLocalStorage(key, false);
+  const [show, el] = useNearScreen();
 
-  useEffect(
-    function() {
-      const observer = new window.IntersectionObserver(function(entries) {
-        const { isIntersecting } = entries[0];
-        if (isIntersecting) {
-          setShow(true);
-          observer.disconnect();
-        }
-      });
-      observer.observe(el.current);
-    },
-    [el],
-  );
+  function handleFavClick() {
+    setLiked(!liked);
+  }
+
   return (
     <Article ref={el}>
       {show && (
@@ -31,10 +26,28 @@ export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
               <Img src={src} />
             </ImgWrapper>
           </a>
+          <ToggleLikeMutation>
+            {toggleLike => {
+              const handleFavClick = () => {
+                !liked &&
+                  toggleLike({
+                    variables: {
+                      input: { id },
+                    },
+                  });
 
-          <Button>
-            <MdFavoriteBorder size='32px' /> {likes} likes!
-          </Button>
+                setLiked(!liked);
+              };
+
+              return (
+                <FavButton
+                  liked={liked}
+                  likes={likes}
+                  onClick={handleFavClick}
+                />
+              );
+            }}
+          </ToggleLikeMutation>
         </Fragment>
       )}
     </Article>

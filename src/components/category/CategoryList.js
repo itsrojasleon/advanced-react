@@ -37,6 +37,7 @@ export default function CategoryList() {
           <Spinner />
         </div>
       )}
+      {renderList()}
       {showFixed && renderList(true)}
     </Fragment>
   );
