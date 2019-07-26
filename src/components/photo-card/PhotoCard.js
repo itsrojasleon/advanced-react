@@ -13,7 +13,6 @@ export default function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }) {
     function() {
       const observer = new window.IntersectionObserver(function(entries) {
         const { isIntersecting } = entries[0];
-        console.log(isIntersecting);
         if (isIntersecting) {
           setShow(true);
           observer.disconnect();
