@@ -1,8 +1,7 @@
 import React from 'react';
 import PhotoCard from './PhotoCard';
-import { withPhotos } from '../../hoc/withPhotos';
 
-function PhotoCardList({ data: { photos = [] } } = {}) {
+export default function PhotoCardList({ data: { photos = [] } } = {}) {
   return (
     <ul>
       {photos.map(photo => (
@@ -11,4 +10,3 @@ function PhotoCardList({ data: { photos = [] } } = {}) {
     </ul>
   );
 }
-export default withPhotos(PhotoCardList);
